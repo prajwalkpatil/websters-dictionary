@@ -1,6 +1,7 @@
 import csv
 import pandas as pd
 import pickle
+import json
 
 dictionary = {}
 all_main_words = []
@@ -76,13 +77,20 @@ def make_dictionary(sentences_merged):
                 if sentences_merged[i] != '\n':
                     dictionary[key_word][last_index]['meanings'].append(sentences_merged[i])
                 i = i + 1
+            '''
             print(f">> {key_word}")
             print(dictionary[key_word]) 
             print("\n")
+            '''
         i = i + 1
+    jsonString = json.dumps(dictionary)
+    jsonFile = open("files/Dictionary.json", "w")
+    jsonFile.write(jsonString)
+    jsonFile.close()
     return dictionary
 
 def main():
+    read_file()
     all_main_words = read_main_words_file()
     sentences_merged = read_merged_sentences_file()
     dictionary = make_dictionary(sentences_merged)
