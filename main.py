@@ -60,8 +60,31 @@ def read_file():
         pickle.dump(all_main_words, f)
     merge_sentences(all_strings)
 
+def make_dictionary(sentences_merged):
+    i = 0
+    while i < len(sentences_merged):
+        if is_main_word(sentences_merged[i]):
+            key_word = sentences_merged[i]
+            i = i + 1 
+            if key_word not in dictionary: 
+                dictionary.update({key_word : []})
+            dictionary[key_word].append({'et' :"", 'meanings':[]})
+            last_index = len(dictionary[key_word]) - 1
+            dictionary[key_word][last_index]['et'] = sentences_merged[i]
+            i = i + 1
+            while i < len(sentences_merged) and not is_main_word(sentences_merged[i]):
+                if sentences_merged[i] != '\n':
+                    dictionary[key_word][last_index]['meanings'].append(sentences_merged[i])
+                i = i + 1
+            print(f">> {key_word}")
+            print(dictionary[key_word]) 
+            print("\n")
+        i = i + 1
+    return dictionary
+
 def main():
     all_main_words = read_main_words_file()
     sentences_merged = read_merged_sentences_file()
-    
+    dictionary = make_dictionary(sentences_merged)
+    # print(dictionary)
 main()
