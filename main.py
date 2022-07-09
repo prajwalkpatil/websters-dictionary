@@ -12,6 +12,8 @@ def is_main_word(a):
     if a == '\n':
         return False
     for i in a:
+        if i == " " or i == ";":
+            continue
         if(not i.isupper() and not (i == '\n') and not i.isalpha()):
             flag = False
             break
