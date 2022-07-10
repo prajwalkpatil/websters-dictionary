@@ -39,11 +39,11 @@ def display():
 
     def items_selected(event):
         user_selection = listbox.curselection()
-        selected_word = temp_dict[user_selection[0]][0]
-        print(selected_word)
         if len(user_selection) != 0:
-            window = tk.Toplevel(root)
+            selected_word = temp_dict[user_selection[0]][0]
+            print(selected_word)
             create_window(selected_word)
+            # window = tk.Toplevel(root)
 
 
 
