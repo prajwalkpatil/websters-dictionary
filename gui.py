@@ -1,6 +1,10 @@
 import tkinter as tk
 import ctypes
-# from main import *
+from main import *
+
+def callback(*args):
+    print("value changed!")
+
 
 def display(): 
     root = tk.Tk()
@@ -9,19 +13,34 @@ def display():
 
     root.tk.call('tk', 'scaling', 2)
 
-    T = tk.Text(root,height = 1.2,width = 30,font=("Georgia",14))
-    l = tk.Label(root, text = "Webster's Dictionary - Search Engine")
+    title_label = tk.Label(root, text = "Webster's Dictionary - Search Engine")
     input_description = tk.Label(root, text = "Enter your query here ")
-    search_recommendations = tk.Label(root, text = "Search Recommendations")
+    search_recommendations_label = tk.Label(root, text = "Search Recommendations")
 
-    l.config(font =("Georgia", 20))
+    title_label.config(font =("Georgia", 20))
     input_description.config(font =("Georgia", 13,"bold"))
-    search_recommendations.config(font =("Georgia", 15,"bold"))
+    search_recommendations_label.config(font =("Georgia", 15,"bold"))
+
+    def label_value():
+        listbox.insert(tk.END, textvar.get())
+        print(textvar.get())
+
+    textvar = tk.StringVar()
+    entry = tk.Entry(root, textvariable=textvar)
+    entry['font'] = "Georgia 20"
+    entry.focus()
     
-    l.pack(pady=(20,2))
+    entry.bind("<Return>", lambda x: label_value())
+    
+    listbox = tk.Listbox(root,height= 500, width = 50)
+    listbox['font'] = "Georgia 15"
+    
+    title_label.pack(pady=(20,2))
     input_description.pack(pady=(30,5),padx=(0,200))
-    T.pack()
-    search_recommendations.pack(pady=(30,5))
+    entry.pack(pady=(20,2))
+    search_recommendations_label.pack(pady=(30,5))
+    listbox.pack(pady=(20,2))
+
     tk.mainloop()
 
 display()
