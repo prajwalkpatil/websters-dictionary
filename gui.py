@@ -2,6 +2,8 @@ import tkinter as tk
 import ctypes
 from main import *
 
+temp_dict = []
+
 def display(): 
     root = tk.Tk()
     root.title("Webster's Dictionary")
@@ -23,11 +25,20 @@ def display():
         listbox.delete(0,tk.END)
         inp = textvar.get().upper()
         if inp != '\r' or inp != '\n' or inp != " " or inp != "":
-            for i in dictionary_trie.query(inp):
+            for i in (dictionary_trie.query(inp)):
+                temp_dict.append(i)
+            for i in temp_dict:
                 listbox.insert(j, i[0].lower().capitalize())
                 j += 1
-            # window = tk.Toplevel(root)
                 # print(i[0].lower().capitalize())
+
+    def items_selected(event):
+        user_selection = listbox.curselection()
+        print(temp_dict[user_selection[0]][0])
+        if len(user_selection) != 0:
+            window = tk.Toplevel(root)
+
+
 
     textvar = tk.StringVar()
     entry = tk.Entry(root, textvariable=textvar)
@@ -44,6 +55,7 @@ def display():
     entry.pack(pady=(20,2))
     search_recommendations_label.pack(pady=(30,5))
     listbox.pack(pady=(20,2))
+    listbox.bind('<<ListboxSelect>>', items_selected)
 
     tk.mainloop()
 
