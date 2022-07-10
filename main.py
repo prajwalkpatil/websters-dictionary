@@ -154,9 +154,3 @@ def main():
     print(dictionary_trie.query("JAGA"))
 
 main()
-
-def main_word_check(a):
-    print(is_main_word(a))
-    main_word_check("APPLE")
-    main_word_check("APPLE ;APPLET")
-    main_word_check("changes\n")
