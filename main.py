@@ -91,10 +91,16 @@ def make_dictionary(sentences_merged):
     jsonFile.close()
     return dictionary
 
+def read_dictionary():
+    with open("files/Dictionary.json") as file:
+        dictionary = json.load(file)
+    return dictionary
+
 def main():
-    read_file()
+    # read_file()
     all_main_words = read_main_words_file()
+    print(len(all_main_words))
     sentences_merged = read_merged_sentences_file()
-    dictionary = make_dictionary(sentences_merged)
-    # print(dictionary)
+    dictionary = read_dictionary()
+    print(len(dictionary))
 main()
