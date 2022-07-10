@@ -2,13 +2,10 @@ import tkinter as tk
 import ctypes
 from main import *
 
-def callback(*args):
-    print("value changed!")
-
-
 def display(): 
     root = tk.Tk()
-    root.geometry("1000x1000")
+    root.title("Webster's Dictionary")
+    root.geometry("1080x1080")
     ctypes.windll.shcore.SetProcessDpiAwareness(1)  
 
     root.tk.call('tk', 'scaling', 2)
@@ -22,8 +19,15 @@ def display():
     search_recommendations_label.config(font =("Georgia", 15,"bold"))
 
     def label_value():
-        listbox.insert(tk.END, textvar.get())
-        print(textvar.get())
+        j = 0
+        listbox.delete(0,tk.END)
+        inp = textvar.get().upper()
+        if inp != '\r' or inp != '\n' or inp != " " or inp != "":
+            for i in dictionary_trie.query(inp):
+                listbox.insert(j, i[0].lower().capitalize())
+                j += 1
+            # window = tk.Toplevel(root)
+                # print(i[0].lower().capitalize())
 
     textvar = tk.StringVar()
     entry = tk.Entry(root, textvariable=textvar)

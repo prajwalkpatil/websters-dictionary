@@ -140,8 +140,8 @@ class Trie(object):
         self.dfs(node, x[:-1])
         return sorted(self.output, key=lambda x: x[1], reverse=True)
 
+dictionary_trie = Trie()    
 def insert_main_words():
-    dictionary_trie = Trie()    
     for i in all_main_words:
         dictionary_trie.insert(i)
     return dictionary_trie
@@ -149,8 +149,6 @@ def insert_main_words():
 def main():
     read_file()
     dictionary = make_dictionary(sentences_merged)
-    print(all_main_words)
     dictionary_trie = insert_main_words()
-    print(dictionary_trie.query("JAGA"))
 
 main()
