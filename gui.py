@@ -3,12 +3,28 @@ import ctypes
 from main import *
 
 temp_dict = []
+root = tk.Tk()
 
 def create_window(word):
     print(dictionary[word.upper()])
+    window = tk.Toplevel(root)
+    window.title(f"Webster's Dictionary - {word.lower().capitalize()}")
+    window.geometry("1150x600")
+    word_window_label = tk.Label(window, text = word.lower().capitalize())
+    word_window_label.config(font =("Georgia", 30))
+    word_window_label.pack(pady=(10,10))
+    for i in dictionary[word.upper()]:
+        word_et_label = tk.Label(window, text = i['et'],wraplength= 1000)
+        word_et_label.config(font =("Georgia", 15 , "italic"))
+        word_et_label.pack(pady=(5,30))
+        for j in i['meanings']:
+            word_meanings_label = tk.Label(window,text= j, wraplength= 1100)
+            word_meanings_label.config(font =("Georgia", 15))
+            word_meanings_label.pack(pady=(5,15))
+    window.mainloop()
+
 
 def display(): 
-    root = tk.Tk()
     root.title("Webster's Dictionary")
     root.geometry("1080x1080")
     ctypes.windll.shcore.SetProcessDpiAwareness(1)  
@@ -43,7 +59,6 @@ def display():
             selected_word = temp_dict[user_selection[0]][0]
             print(selected_word)
             create_window(selected_word)
-            # window = tk.Toplevel(root)
 
 
 
