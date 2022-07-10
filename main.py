@@ -99,8 +99,7 @@ def read_dictionary():
 def main():
     # read_file()
     all_main_words = read_main_words_file()
-    print(len(all_main_words))
     sentences_merged = read_merged_sentences_file()
     dictionary = read_dictionary()
-    print(len(dictionary))
+    print("Hello, World")
 main()
