@@ -8,13 +8,14 @@ all_main_words = []
 sentences_merged = []
 
 def is_main_word(a):
+    a = a.replace("\n","")
     flag = True
+    if a == '':
+        return False
     if a == '\n':
         return False
     for i in a:
-        if i == " " or i == ";":
-            continue
-        if(not i.isupper() and not (i == '\n') and not i.isalpha()):
+        if not ((i >= 'A' and i <= 'Z') or (i == ' ' or i == ';')):
             flag = False
             break
     return flag
@@ -96,10 +97,66 @@ def read_dictionary():
         dictionary = json.load(file)
     return dictionary
 
+
+class TrieNode:
+    def __init__(self, char):
+        self.char = char
+        self.is_end = False
+        self.counter = 0
+        self.children = {}
+
+
+class Trie(object):
+    def __init__(self):
+        self.root = TrieNode("")
+    
+    def insert(self, word):
+        node = self.root
+        for char in word:
+            if char in node.children:
+                node = node.children[char]
+            else:
+                new_node = TrieNode(char)
+                node.children[char] = new_node
+                node = new_node
+        node.is_end = True
+        node.counter += 1
+        
+    def dfs(self, node, prefix):
+        if node.is_end:
+            self.output.append((prefix + node.char, node.counter))
+        
+        for child in node.children.values():
+            self.dfs(child, prefix + node.char)
+        
+    def query(self, x):
+        self.output = []
+        node = self.root
+        for char in x:
+            if char in node.children:
+                node = node.children[char]
+            else:
+                return []
+        self.dfs(node, x[:-1])
+        return sorted(self.output, key=lambda x: x[1], reverse=True)
+
+def insert_main_words():
+    dictionary_trie = Trie()    
+    for i in all_main_words:
+        dictionary_trie.insert(i)
+    return dictionary_trie
+
 def main():
-    # read_file()
-    all_main_words = read_main_words_file()
-    sentences_merged = read_merged_sentences_file()
-    dictionary = read_dictionary()
-    print("Hello, World")
+    read_file()
+    dictionary = make_dictionary(sentences_merged)
+    print(all_main_words)
+    dictionary_trie = insert_main_words()
+    print(dictionary_trie.query("JAGA"))
+
 main()
+
+def main_word_check(a):
+    print(is_main_word(a))
+    main_word_check("APPLE")
+    main_word_check("APPLE ;APPLET")
+    main_word_check("changes\n")
