@@ -4,6 +4,9 @@ from main import *
 
 temp_dict = []
 
+def create_window(word):
+    print(dictionary[word.upper()])
+
 def display(): 
     root = tk.Tk()
     root.title("Webster's Dictionary")
@@ -24,7 +27,9 @@ def display():
         j = 0
         listbox.delete(0,tk.END)
         inp = textvar.get().upper()
+        del temp_dict[:]
         if inp != '\r' or inp != '\n' or inp != " " or inp != "":
+            j = 0
             for i in (dictionary_trie.query(inp)):
                 temp_dict.append(i)
             for i in temp_dict:
@@ -34,9 +39,11 @@ def display():
 
     def items_selected(event):
         user_selection = listbox.curselection()
-        print(temp_dict[user_selection[0]][0])
+        selected_word = temp_dict[user_selection[0]][0]
+        print(selected_word)
         if len(user_selection) != 0:
             window = tk.Toplevel(root)
+            create_window(selected_word)
 
 
 

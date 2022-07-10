@@ -15,7 +15,7 @@ def is_main_word(a):
     if a == '\n':
         return False
     for i in a:
-        if not ((i >= 'A' and i <= 'Z') or (i == ' ' or i == ';')):
+        if not ((i >= 'A' and i <= 'Z') or (i == ' ' or i == ';') or i == '-' ):
             flag = False
             break
     return flag
@@ -140,9 +140,10 @@ class Trie(object):
         self.dfs(node, x[:-1])
         return sorted(self.output, key=lambda x: x[1], reverse=True)
 
-dictionary_trie = Trie()    
+dictionary_trie = Trie()   
+
 def insert_main_words():
-    for i in all_main_words:
+    for i in dictionary.keys():
         dictionary_trie.insert(i)
     return dictionary_trie
 
