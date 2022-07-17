@@ -4,7 +4,6 @@
 
 # ------------------------------ Import packages ----------------------------- #
 import csv
-import pandas as pd
 import pickle
 import json
 import string 
