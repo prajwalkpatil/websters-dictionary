@@ -170,7 +170,5 @@ def main():
     read_file()
     dictionary = make_dictionary(sentences_merged)
     dictionary_trie = insert_main_words()
-    recommendations = create_recommendations("HOCKEY")
-    print(recommendations)           
-
+    
 main()

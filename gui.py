@@ -4,28 +4,31 @@ from main import *
 
 temp_dict = []
 temp_rec = []
+window_count = 0 
 root = tk.Tk()
 
 def create_recommendations_window(word):
+    global window_count
+    window_id = window_count
+    window_count += 1
     window_recommendations = tk.Toplevel(root)
     window_recommendations.geometry("1150x600")
     window_recommendations.title(f"Webster's Dictionary - {word.lower().capitalize()} recommendations")
     word_recommendations_window_label = tk.Label(window_recommendations, text = f"Recommendations for \"{word.lower().capitalize()}\"")
-
     listbox_recommendations = tk.Listbox(window_recommendations,height= 500, width = 50)
     listbox_recommendations['font'] = "Georgia 15"
     recommendations = create_recommendations(word.upper())
-    del temp_rec[:]
+    temp_rec.append([])
     l = 0
     for i in recommendations:
         listbox_recommendations.insert(l,i.lower().capitalize())
         l += 1;
-        temp_rec.append(i)
+        temp_rec[window_id].append(i)
 
     def items_selected(event):
         user_selection = listbox_recommendations.curselection()
         if len(user_selection) != 0:
-            selected_word = temp_rec[user_selection[0]]
+            selected_word = temp_rec[window_id][user_selection[0]]
             print(selected_word)
             create_window(selected_word)
 
