@@ -16,3 +16,7 @@ Run gui.py using terminal/cmd to open a Grapical User Interface of the dictionar
 
 - Upon typing the text in text input box, press Enter to execute the query.
 - To navigate the listbox(search and word recommendations), scroll using a mouse or touchpad. 
+
+### Footnotes
+
+**Webster's Unabridged Dictionary** was used as ```dictionary.txt``` (Plain Text UTF-8) from [here](https://www.gutenberg.org/ebooks/29765). 
