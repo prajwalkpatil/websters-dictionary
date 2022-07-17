@@ -3,15 +3,36 @@ import ctypes
 from main import *
 
 temp_dict = []
+temp_rec = []
 root = tk.Tk()
 
 def create_recommendations_window(word):
     window_recommendations = tk.Toplevel(root)
     window_recommendations.geometry("1150x600")
     window_recommendations.title(f"Webster's Dictionary - {word.lower().capitalize()} recommendations")
-    word_recommendations_window_label = tk.Label(window_recommendations, text = f"Recommendations for {word.lower().capitalize()}")
+    word_recommendations_window_label = tk.Label(window_recommendations, text = f"Recommendations for \"{word.lower().capitalize()}\"")
+
+    listbox_recommendations = tk.Listbox(window_recommendations,height= 500, width = 50)
+    listbox_recommendations['font'] = "Georgia 15"
+    recommendations = create_recommendations(word.upper())
+    del temp_rec[:]
+    l = 0
+    for i in recommendations:
+        listbox_recommendations.insert(l,i.lower().capitalize())
+        l += 1;
+        temp_rec.append(i)
+
+    def items_selected(event):
+        user_selection = listbox_recommendations.curselection()
+        if len(user_selection) != 0:
+            selected_word = temp_rec[user_selection[0]]
+            print(selected_word)
+            create_window(selected_word)
+
     word_recommendations_window_label.config(font =("Georgia", 22))
     word_recommendations_window_label.pack(pady=(10,10))
+    listbox_recommendations.pack(pady=(20,2))
+    listbox_recommendations.bind('<<ListboxSelect>>', items_selected) 
     window_recommendations.mainloop()
 
 def create_window(word):
@@ -22,7 +43,7 @@ def create_window(word):
     word_window_label = tk.Label(window, text = word.lower().capitalize())
     word_window_label.config(font =("Georgia", 30))
     word_window_label.pack(pady=(10,10))
-    recommendations_label = tk.Label(window, text = f"See references/recommendations for {word.lower().capitalize()}", foreground= "blue")
+    recommendations_label = tk.Label(window, text = f"See references/recommendations for - {word.lower().capitalize()}", foreground= "blue")
     recommendations_label.config(font =("Georgia", 12,"italic"))
     recommendations_label.pack(pady=(10,10))
     recommendations_label.bind("<Button-1>", lambda e:create_recommendations_window(word))
@@ -73,8 +94,6 @@ def display():
             selected_word = temp_dict[user_selection[0]][0]
             print(selected_word)
             create_window(selected_word)
-
-
 
     textvar = tk.StringVar()
     entry = tk.Entry(root, textvariable=textvar)

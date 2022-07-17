@@ -2,10 +2,12 @@ import csv
 import pandas as pd
 import pickle
 import json
+import string 
 
 dictionary = {}
 all_main_words = []
 sentences_merged = []
+recommendations = set()
 
 def is_main_word(a):
     a = a.replace("\n","")
@@ -147,9 +149,28 @@ def insert_main_words():
         dictionary_trie.insert(i)
     return dictionary_trie
 
+def create_recommendations(word):
+    word = word.upper()
+    rec = set()
+    if word not in dictionary:
+        return rec
+    for me in dictionary[word]:
+        for m in me['meanings']:
+            temp_string = m.translate(str.maketrans('', '', string.punctuation))
+            temp_string = temp_string.translate(str.maketrans('', '', string.digits))
+            seperate_words = temp_string.split()
+            for sep_word in seperate_words:
+                sep_word = sep_word.upper()
+                if sep_word in dictionary:
+                    rec.add(sep_word)
+    return rec
+
+
 def main():
     read_file()
     dictionary = make_dictionary(sentences_merged)
     dictionary_trie = insert_main_words()
+    recommendations = create_recommendations("HOCKEY")
+    print(recommendations)           
 
 main()
